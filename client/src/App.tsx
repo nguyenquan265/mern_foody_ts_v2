@@ -1,12 +1,13 @@
-import { Button } from '@/components/ui/button'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import Layout from './layouts/layout'
 
 function App() {
   return (
-    <>
-      <div>
-        <Button>Click me</Button>
-      </div>
-    </>
+    <Routes>
+      <Route path='/' element={<Layout>Home Page</Layout>} />
+      <Route path='/user-profile' element={<h1>User profile</h1>} />
+      <Route path='*' element={<Navigate to='/' />} />
+    </Routes>
   )
 }
 

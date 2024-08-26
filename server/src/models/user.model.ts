@@ -19,9 +19,6 @@ const userSchema = new Schema<IUser>(
     addressLine1: {
       type: String
     },
-    addressLine2: {
-      type: String
-    },
     city: {
       type: String
     },

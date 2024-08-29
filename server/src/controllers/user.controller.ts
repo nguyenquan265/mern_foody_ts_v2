@@ -3,6 +3,16 @@ import User from '~/models/user.model'
 import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
 
+export const getCurrentUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const user = await User.findById(req.userId).exec()
+
+  if (!user) {
+    throw new ApiError(404, 'User not found')
+  }
+
+  res.status(200).json({ user: user.toObject() })
+})
+
 interface ICreateUserRequest extends Request {
   body: {
     auth0Id: string

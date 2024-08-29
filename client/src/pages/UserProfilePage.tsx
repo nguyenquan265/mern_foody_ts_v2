@@ -1,10 +1,15 @@
-import { useUpdateUser } from '@/apis/Api'
+import { useGetUser, useUpdateUser } from '@/apis/Api'
 import UserProfileForm from '@/components/forms/UserProfileForm'
 
 const UserProfilePage = () => {
-  const { updateUser, isLoading } = useUpdateUser()
+  const { user, isLoading: isGetLoading } = useGetUser()
+  const { updateUser, isLoading: isUpdateLoading } = useUpdateUser()
 
-  return <UserProfileForm onSave={updateUser} isloading={isLoading} />
+  if (isGetLoading) {
+    return <span>Loading...</span>
+  }
+
+  return <UserProfileForm onSave={updateUser} isloading={isUpdateLoading} />
 }
 
 export default UserProfilePage

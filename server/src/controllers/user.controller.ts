@@ -10,7 +10,7 @@ export const getCurrentUser = asyncHandler(async (req: Request, res: Response, n
     throw new ApiError(404, 'User not found')
   }
 
-  res.status(200).json({ user: user.toObject() })
+  res.status(200).json(user.toObject())
 })
 
 interface ICreateUserRequest extends Request {
@@ -62,6 +62,6 @@ export const updateCurrentUser = asyncHandler(
 
     await user.save()
 
-    res.status(200).json({ user: user.toObject() })
+    res.status(200).json(user.toObject())
   }
 )

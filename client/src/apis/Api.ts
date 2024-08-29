@@ -1,3 +1,4 @@
+import { User } from '@/types'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useMutation, useQuery } from 'react-query'
 import { toast } from 'sonner'
@@ -7,7 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 export const useGetUser = () => {
   const { getAccessTokenSilently } = useAuth0()
 
-  const getUserRequest = async () => {
+  const getUserRequest = async (): Promise<User> => {
     const accessToken = await getAccessTokenSilently()
 
     const res = await fetch(`${API_BASE_URL}/users`, {
@@ -25,7 +26,7 @@ export const useGetUser = () => {
     return res.json()
   }
 
-  const { data: user, isLoading, isError, error } = useQuery('currentUser', getUserRequest)
+  const { data: currentUser, isLoading, isError, error } = useQuery('currentUser', getUserRequest)
 
   if (isError) {
     console.log(error)
@@ -33,7 +34,7 @@ export const useGetUser = () => {
     toast.error('Failed to get user')
   }
 
-  return { user, isLoading }
+  return { currentUser, isLoading }
 }
 
 type CreateUserRequest = {
@@ -76,7 +77,7 @@ type UpdateUserRequest = {
 export const useUpdateUser = () => {
   const { getAccessTokenSilently } = useAuth0()
 
-  const updateUserRequest = async (formData: UpdateUserRequest) => {
+  const updateUserRequest = async (formData: UpdateUserRequest): Promise<User> => {
     const accessToken = await getAccessTokenSilently()
 
     const res = await fetch(`${API_BASE_URL}/users`, {

@@ -32,3 +32,37 @@ export const useCreateUser = () => {
 
   return { createUser, isLoading, isError, isSuccess }
 }
+
+type UpdateUserRequest = {
+  name: string
+  addressLine1: string
+  city: string
+  country: string
+}
+
+export const useUpdateUser = () => {
+  const { getAccessTokenSilently } = useAuth0()
+
+  const updateUserRequest = async (formData: UpdateUserRequest) => {
+    const accessToken = await getAccessTokenSilently()
+
+    const res = await fetch(`${API_BASE_URL}/users`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+
+    if (!res.ok) {
+      throw new Error('Failed to update user')
+    }
+
+    return res.json()
+  }
+
+  const { mutateAsync: updateUser, isLoading, isError, isSuccess, error, reset } = useMutation(updateUserRequest)
+
+  return { updateUser, isLoading, isError, isSuccess, error, reset }
+}

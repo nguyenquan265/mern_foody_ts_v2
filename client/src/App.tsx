@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './layouts/Layout'
 import HomePage from './pages/HomePage'
 import AuthCallbackPage from './pages/AuthCallbackPage'
+import UserProfilePage from './pages/UserProfilePage'
 
 function App() {
   return (
@@ -9,13 +10,20 @@ function App() {
       <Route
         path='/'
         element={
-          <Layout>
+          <Layout showHero={true}>
             <HomePage />
           </Layout>
         }
       />
       <Route path='/auth-callback' element={<AuthCallbackPage />} />
-      <Route path='/user-profile' element={<h1>User profile</h1>} />
+      <Route
+        path='/user-profile'
+        element={
+          <Layout>
+            <UserProfilePage />
+          </Layout>
+        }
+      />
       <Route path='*' element={<Navigate to='/' />} />
     </Routes>
   )

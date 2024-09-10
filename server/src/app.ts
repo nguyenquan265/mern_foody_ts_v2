@@ -13,6 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routes
+app.get('/health', (req: Request, res: Response) => {
+  res.send({ message: 'Server is running' })
+})
 app.use('/api/v1', router)
 app.use('/*', (req: Request, res: Response, next: NextFunction) => {
   next(new ApiError(404, `Can't find ${req.originalUrl} on this server!`))

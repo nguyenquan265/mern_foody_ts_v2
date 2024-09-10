@@ -16,6 +16,7 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
     throw new Error('Auth0 environment variables are missing')
   }
 
+  // redirect to /auth-callback after login
   const onRedirectCallback = () => {
     navigate('/auth-callback')
   }

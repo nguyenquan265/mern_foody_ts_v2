@@ -4,7 +4,7 @@
   "main": "./src/server.js",
   "scripts": {
     "dev": "npx nodemon",
-    "build": "rimraf ./dist && tsc && tsc-alias",
+    "build": "npx tsc && tsc-alias",
     "start": "node dist/server.js",
     "production": "npm run build && npm run start",
     "lint": "eslint .",
@@ -28,7 +28,6 @@
     "eslint-plugin-prettier": "^5.2.1",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
-    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",

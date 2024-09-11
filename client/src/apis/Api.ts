@@ -11,7 +11,7 @@ export const useGetUser = () => {
   const getUserRequest = async (): Promise<User> => {
     const accessToken = await getAccessTokenSilently()
 
-    const res = await fetch(`${API_BASE_URL}/users`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/users`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -48,7 +48,7 @@ export const useCreateUser = () => {
   const createUserRequest = async (user: CreateUserRequest) => {
     const accessToken = await getAccessTokenSilently()
 
-    const res = await fetch(`${API_BASE_URL}/users`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/users`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -80,7 +80,7 @@ export const useUpdateUser = () => {
   const updateUserRequest = async (formData: UpdateUserRequest): Promise<User> => {
     const accessToken = await getAccessTokenSilently()
 
-    const res = await fetch(`${API_BASE_URL}/users`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/users`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -6,6 +6,7 @@
     "dev": "npx nodemon",
     "build": "rimraf ./dist && tsc && tsc-alias",
     "start": "node dist/server.js",
+    "production": "npm run build && npm run start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",

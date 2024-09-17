@@ -38,7 +38,7 @@ const restaurantSchema = new Schema<IRestaurant>(
       type: Number,
       required: true
     },
-    estimateDeliveryTime: {
+    estimatedDeliveryTime: {
       type: Number,
       required: true
     },

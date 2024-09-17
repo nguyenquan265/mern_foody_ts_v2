@@ -11,7 +11,7 @@ interface ICreateUserRequest extends Request {
     city: string
     country: string
     deliveryPrice: number
-    estimateDeliveryTime: number
+    estimatedDeliveryTime: number
     cuisines: string[]
     menuItems: { name: string; price: number }[]
   }

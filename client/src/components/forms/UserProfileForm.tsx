@@ -46,7 +46,9 @@ const UserProfileForm = ({ currentUser, onSave, isloading }: Props) => {
         <FormField
           control={form.control}
           name='email'
-          render={({ field }) => (
+          render={(
+            { field } // field la mot object chua cac props can thiet de bind voi input element
+          ) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>

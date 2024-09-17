@@ -7,7 +7,7 @@ export default interface IRestaurant extends Document {
   city: string
   country: string
   deliveryPrice: number
-  estimateDeliveryTime: number
+  estimatedDeliveryTime: number
   cuisines: string[]
   menuItems: Types.ObjectId[]
   imageUrl: string

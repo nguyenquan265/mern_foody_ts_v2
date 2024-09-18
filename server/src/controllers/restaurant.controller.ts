@@ -5,6 +5,16 @@ import Restaurant from '~/models/restaurant.model'
 import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
 
+export const getCurrentRestaurant = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const restaurant = await Restaurant.findOne({ user: req.userId }).exec()
+
+  if (!restaurant) {
+    throw new ApiError(404, 'Restaurant not found')
+  }
+
+  res.status(200).json(restaurant.toObject())
+})
+
 interface ICreateUserRequest extends Request {
   body: {
     restaurantName: string

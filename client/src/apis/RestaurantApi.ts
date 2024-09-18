@@ -1,9 +1,40 @@
 import { Restaurant } from '@/types'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { toast } from 'sonner'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
+export const useGetRestaurant = () => {
+  const { getAccessTokenSilently } = useAuth0()
+
+  const getRestaurantRequest = async (): Promise<Restaurant> => {
+    const accessToken = await getAccessTokenSilently()
+
+    const res = await fetch(`${API_BASE_URL}/api/v1/restaurants`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+
+    if (!res.ok) {
+      throw new Error('Failed to get restaurant')
+    }
+
+    return res.json()
+  }
+
+  const { data: currentRestaurant, isLoading, isError, error } = useQuery('currentRestaurant', getRestaurantRequest)
+
+  if (isError) {
+    console.log(error)
+
+    toast.error('Failed to get restaurant')
+  }
+
+  return { currentRestaurant, isLoading }
+}
 
 export const useCreateRestaurant = () => {
   const { getAccessTokenSilently } = useAuth0()

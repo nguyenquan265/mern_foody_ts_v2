@@ -1,4 +1,4 @@
-import { useGetUser, useUpdateUser } from '@/apis/Api'
+import { useGetUser, useUpdateUser } from '@/apis/UserApi'
 import UserProfileForm from '@/components/forms/UserProfileForm'
 
 const UserProfilePage = () => {

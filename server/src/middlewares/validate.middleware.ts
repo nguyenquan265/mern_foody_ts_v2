@@ -31,7 +31,7 @@ export const validateRestaurantRequest = [
   body('city').notEmpty().withMessage('City is required'),
   body('country').notEmpty().withMessage('Country is required'),
   body('deliveryPrice').isFloat({ min: 0 }).withMessage('Delivery price must be a positive number'),
-  body('estimateDeliveryTime').isInt({ min: 0 }).withMessage('Estimate delivery time must be a positive integer'),
+  body('estimatedDeliveryTime').isInt({ min: 0 }).withMessage('Estimate delivery time must be a positive integer'),
   body('cuisines')
     .isArray()
     .withMessage('Cuisines must be an array')

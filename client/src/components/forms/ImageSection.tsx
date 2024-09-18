@@ -2,9 +2,12 @@ import { useFormContext } from 'react-hook-form'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { ChangeEvent } from 'react'
+import { AspectRatio } from '../ui/aspect-ratio'
 
 const ImageSection = () => {
-  const { control } = useFormContext()
+  const { control, watch } = useFormContext()
+
+  const existingImage = watch('imageUrl')
 
   return (
     <div className='space-y-2'>
@@ -15,7 +18,13 @@ const ImageSection = () => {
         </FormDescription>
       </div>
 
-      <div className='flex flex-col gap-8 w-[50%]'>
+      <div className='flex flex-col gap-8 md:w-[50%]'>
+        {existingImage && (
+          <AspectRatio ratio={16 / 9}>
+            <img src={existingImage} className='rounded-md object-cover h-full w-full' />
+          </AspectRatio>
+        )}
+
         <FormField
           control={control}
           name='imageFile'

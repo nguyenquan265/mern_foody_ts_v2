@@ -9,8 +9,8 @@ const app = express()
 
 // Middlewares
 app.use(cors(corsOptions))
-app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Routes
 app.get('/health', (req: Request, res: Response) => {

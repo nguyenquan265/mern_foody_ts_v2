@@ -2,19 +2,16 @@ import { Schema, model } from 'mongoose'
 import IMenuItem from '~/interfaces/menuItem.interface'
 import IRestaurant from '~/interfaces/restaurant.interface'
 
-const menuItemSchema = new Schema<IMenuItem>(
-  {
-    name: {
-      type: String,
-      required: true
-    },
-    price: {
-      type: Number,
-      required: true
-    }
+const menuItemSchema = new Schema<IMenuItem>({
+  name: {
+    type: String,
+    required: true
   },
-  { timestamps: true }
-)
+  price: {
+    type: Number,
+    required: true
+  }
+})
 
 const restaurantSchema = new Schema<IRestaurant>(
   {
@@ -43,7 +40,7 @@ const restaurantSchema = new Schema<IRestaurant>(
       required: true
     },
     cuisines: [{ type: String, required: true }],
-    menuItems: [{ menuItemSchema }],
+    menuItems: [menuItemSchema],
     imageUrl: {
       type: String,
       required: true

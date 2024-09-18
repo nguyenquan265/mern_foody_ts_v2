@@ -44,6 +44,7 @@ export const createRestaurant = asyncHandler(async (req: ICreateUserRequest, res
   const restaurant = new Restaurant(req.body)
   restaurant.imageUrl = result.secure_url
   restaurant.user = new Types.ObjectId(req.userId)
+
   await restaurant.save()
 
   res.status(200).json({ restaurant: restaurant.toObject() })

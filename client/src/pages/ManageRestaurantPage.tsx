@@ -11,6 +11,10 @@ const ManageRestaurantPage = () => {
     return <span>Loading...</span>
   }
 
+  if (!currentRestaurant) {
+    return <span>Unable to load user's restaurant</span>
+  }
+
   return (
     <ManageRestaurantForm
       restaurant={currentRestaurant}

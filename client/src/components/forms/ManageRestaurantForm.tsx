@@ -12,27 +12,33 @@ import { Button } from '../ui/button'
 import { Restaurant } from '@/types'
 import { useEffect } from 'react'
 
-const formSchema = z.object({
-  restaurantName: z.string({ required_error: 'Restaurant name is required' }),
-  city: z.string({ required_error: 'City is required' }),
-  country: z.string({ required_error: 'Country is required' }),
-  deliveryPrice: z.coerce.number({
-    required_error: 'Delivery price is required',
-    invalid_type_error: 'Delivery price must be a number'
-  }),
-  estimatedDeliveryTime: z.coerce.number({
-    required_error: 'Estimated delivery time is required',
-    invalid_type_error: 'Estimated delivery time must be a number'
-  }),
-  cuisines: z.array(z.string()).nonempty({ message: 'Cuisines are required' }),
-  menuItems: z.array(
-    z.object({
-      name: z.string().min(1, { message: 'Name is required' }),
-      price: z.coerce.number().min(1, { message: 'Price must be greater than 0' })
-    })
-  ),
-  imageFile: z.instanceof(File, { message: 'Image is required' })
-})
+const formSchema = z
+  .object({
+    restaurantName: z.string({ required_error: 'Restaurant name is required' }),
+    city: z.string({ required_error: 'City is required' }),
+    country: z.string({ required_error: 'Country is required' }),
+    deliveryPrice: z.coerce.number({
+      required_error: 'Delivery price is required',
+      invalid_type_error: 'Delivery price must be a number'
+    }),
+    estimatedDeliveryTime: z.coerce.number({
+      required_error: 'Estimated delivery time is required',
+      invalid_type_error: 'Estimated delivery time must be a number'
+    }),
+    cuisines: z.array(z.string()).nonempty({ message: 'Cuisines are required' }),
+    menuItems: z.array(
+      z.object({
+        name: z.string().min(1, { message: 'Name is required' }),
+        price: z.coerce.number().min(1, { message: 'Price must be greater than 0' })
+      })
+    ),
+    imageUrl: z.string().optional(),
+    imageFile: z.instanceof(File, { message: 'Image is required' }).optional()
+  })
+  .refine((data) => data.imageUrl || data.imageFile, {
+    message: 'Either image Url or image File must be provided',
+    path: ['imageFile']
+  })
 
 type RestaurantFormData = z.infer<typeof formSchema>
 
@@ -87,7 +93,10 @@ const ManageRestaurantForm = ({ onSave, isloading, restaurant }: Props) => {
       formData.append(`menuItems[${index}][name]`, menuItem.name)
       formData.append(`menuItems[${index}][price]`, (menuItem.price * 100).toString())
     })
-    formData.append('imageFile', formDataJson.imageFile)
+
+    if (formDataJson.imageFile) {
+      formData.append('imageFile', formDataJson.imageFile)
+    }
 
     onSave(formData)
   }

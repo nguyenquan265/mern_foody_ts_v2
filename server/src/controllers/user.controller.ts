@@ -4,13 +4,13 @@ import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
 
 export const getCurrentUser = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await User.findById(req.userId).exec()
+  const user = await User.findById(req.userId).lean()
 
   if (!user) {
     throw new ApiError(404, 'User not found')
   }
 
-  res.status(200).json(user.toObject())
+  res.status(200).json(user)
 })
 
 interface ICreateUserRequest extends Request {
@@ -23,7 +23,7 @@ interface ICreateUserRequest extends Request {
 export const createUser = asyncHandler(async (req: ICreateUserRequest, res: Response, next: NextFunction) => {
   const { auth0Id, email } = req.body
 
-  const user = await User.findOne({ auth0Id }).exec()
+  const user = await User.findOne({ auth0Id }).lean()
 
   if (user) {
     return res.status(200).send()
@@ -49,7 +49,7 @@ export const updateCurrentUser = asyncHandler(
   async (req: IUpdateCurrentUserRequest, res: Response, next: NextFunction) => {
     const { name, addressLine1, country, city } = req.body
 
-    const user = await User.findById(req.userId).exec()
+    const user = await User.findById(req.userId)
 
     if (!user) {
       throw new ApiError(404, 'User not found')

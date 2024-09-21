@@ -8,13 +8,13 @@ import asyncHandler from '~/utils/asyncHandler'
 // Path: .../restaurants
 
 export const getCurrentRestaurant = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const restaurant = await Restaurant.findOne({ user: req.userId }).exec()
+  const restaurant = await Restaurant.findOne({ user: req.userId }).lean()
 
   if (!restaurant) {
     throw new ApiError(404, 'Restaurant not found')
   }
 
-  res.status(200).json(restaurant.toObject())
+  res.status(200).json(restaurant)
 })
 
 interface ICreateUserRequest extends Request {
@@ -31,7 +31,7 @@ interface ICreateUserRequest extends Request {
 }
 
 export const createRestaurant = asyncHandler(async (req: ICreateUserRequest, res: Response, next: NextFunction) => {
-  const existingRestaurant = await Restaurant.findOne({ user: req.userId }).exec()
+  const existingRestaurant = await Restaurant.findOne({ user: req.userId })
 
   if (existingRestaurant) {
     throw new ApiError(409, 'Restaurant already exists for this user')
@@ -62,7 +62,7 @@ interface IUpdateUserRequest extends Request {
 }
 
 export const updateRestaurant = asyncHandler(async (req: IUpdateUserRequest, res: Response, next: NextFunction) => {
-  const restaurant = await Restaurant.findOne({ user: req.userId }).exec()
+  const restaurant = await Restaurant.findOne({ user: req.userId })
 
   if (!restaurant) {
     throw new ApiError(404, 'Restaurant not found')

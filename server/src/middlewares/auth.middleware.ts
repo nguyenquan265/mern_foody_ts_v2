@@ -24,7 +24,7 @@ export const jwtParse: RequestHandler = asyncHandler(async (req: Request, res: R
   const decoded = decode(token) as JwtPayload
   const auth0Id = decoded.sub
 
-  const user = await User.findOne({ auth0Id }).exec()
+  const user = await User.findOne({ auth0Id }).lean()
 
   if (!user) {
     throw new ApiError(404, 'User not found')

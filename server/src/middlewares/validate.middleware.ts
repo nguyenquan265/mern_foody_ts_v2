@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body, param, validationResult } from 'express-validator'
 import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
 
@@ -41,5 +41,10 @@ export const validateRestaurantRequest = [
   body('menuItems').isArray().withMessage('Menu items must be an array'),
   body('menuItems.*.name').isString().notEmpty().withMessage('Menu item name must be a string'),
   body('menuItems.*.price').isFloat({ min: 0 }).withMessage('Menu item price must be a positive number'),
+  handleValidationErrors
+]
+
+export const validateSearchRestaurantRequest = [
+  param('city').isString().trim().notEmpty().withMessage('City parameter must be a string'),
   handleValidationErrors
 ]

@@ -8,7 +8,7 @@ import ApiError from './utils/ApiError'
 const app = express()
 
 // Middlewares
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 

@@ -15,14 +15,14 @@ export type MenuItem = {
 
 export type Restaurant = {
   _id: string
-  name: string
+  restaurantName: string
   city: string
   country: string
   deliveryPrice: number
   estimatedDeliveryTime: number
   cuisines: string[]
   menuItems: MenuItem[]
-  image: string
+  imageUrl: string
 }
 
 export type RestaurantSearchResponse = {

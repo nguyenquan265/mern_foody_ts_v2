@@ -20,7 +20,7 @@ const SearchPage = () => {
       <div id='cuisines-list'>insert cuisines list here</div>
 
       <div id='main-content' className='flex flex-col gap-5'>
-        <SearchResultInfo total={result?.pagination.total || 0} city={city} />
+        <SearchResultInfo total={result.pagination.total} city={city} />
 
         {result?.data.map((restaurant) => <SearchResultCard key={restaurant._id} restaurant={restaurant} />)}
       </div>

@@ -1,4 +1,5 @@
 import { useSearchRestaurants } from '@/apis/RestaurantApi'
+import PaginationSelector from '@/components/PaginationSelector'
 import SearchBar, { SearchFormData } from '@/components/SearchBar'
 import SearchResultCard from '@/components/SearchResultCard'
 import SearchResultInfo from '@/components/SearchResultInfo'
@@ -7,19 +8,24 @@ import { useParams } from 'react-router-dom'
 
 export type SearchState = {
   searchQuery: string
+  page: number
 }
 
 const SearchPage = () => {
   const { city } = useParams()
-  const [searchState, setSearchState] = useState<SearchState>({ searchQuery: '' })
+  const [searchState, setSearchState] = useState<SearchState>({ searchQuery: '', page: 1 })
   const { result, isLoading } = useSearchRestaurants(searchState, city)
 
+  const setPage = (page: number) => {
+    setSearchState((prevState) => ({ ...prevState, page }))
+  }
+
   const setSearchQuerry = (formData: SearchFormData) => {
-    setSearchState((prevState) => ({ ...prevState, searchQuery: formData.searchQuery }))
+    setSearchState((prevState) => ({ ...prevState, searchQuery: formData.searchQuery, page: 1 }))
   }
 
   const resetSearch = () => {
-    setSearchState((prevState) => ({ ...prevState, searchQuery: '' }))
+    setSearchState((prevState) => ({ ...prevState, searchQuery: '', page: 1 }))
   }
 
   if (isLoading) {
@@ -45,6 +51,8 @@ const SearchPage = () => {
         <SearchResultInfo total={result.pagination.total} city={city} />
 
         {result?.data.map((restaurant) => <SearchResultCard key={restaurant._id} restaurant={restaurant} />)}
+
+        <PaginationSelector page={result.pagination.page} pages={result.pagination.pages} onPageChange={setPage} />
       </div>
     </div>
   )

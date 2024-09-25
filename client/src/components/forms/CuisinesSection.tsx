@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form'
 import { FormDescription, FormField, FormItem, FormMessage } from '../ui/form'
 import CuisineCheckbox from './CuisineCheckbox'
 
-const cuisineList = [
+export const cuisineList = [
   'American',
   'BBQ',
   'Breakfast',

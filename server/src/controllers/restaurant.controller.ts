@@ -133,7 +133,7 @@ export const searchRestaurants = asyncHandler(async (req: Request, res: Response
     Restaurant.find(query)
       .skip(skip)
       .limit(limit)
-      .sort({ [sortOption]: -1 }) // sortOption vao [] de co the truyen bien vao
+      .sort({ [sortOption]: 1 }) // sortOption vao [] de co the truyen bien vao
       .lean(),
     Restaurant.countDocuments(query)
   ])

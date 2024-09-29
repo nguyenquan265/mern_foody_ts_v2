@@ -7,6 +7,26 @@ import asyncHandler from '~/utils/asyncHandler'
 
 // Path: .../restaurants
 
+interface IGetRestaurantByIdRequest extends Request {
+  params: {
+    restaurantId: string
+  }
+}
+
+export const getRestaurantById = asyncHandler(
+  async (req: IGetRestaurantByIdRequest, res: Response, next: NextFunction) => {
+    const restaurantId = req.params.restaurantId
+
+    const restaurant = await Restaurant.findById(restaurantId).lean()
+
+    if (!restaurant) {
+      throw new ApiError(404, 'Restaurant not found')
+    }
+
+    res.status(200).json(restaurant)
+  }
+)
+
 export const getCurrentRestaurant = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
   const restaurant = await Restaurant.findOne({ user: req.userId }).lean()
 

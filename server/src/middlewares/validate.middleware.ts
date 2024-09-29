@@ -44,6 +44,11 @@ export const validateRestaurantRequest = [
   handleValidationErrors
 ]
 
+export const validateRestaurantIdRequest = [
+  param('restaurantId').isString().trim().notEmpty().withMessage('RestaurantId parameter must be a string'),
+  handleValidationErrors
+]
+
 export const validateSearchRestaurantRequest = [
   param('city').isString().trim().notEmpty().withMessage('City parameter must be a string'),
   handleValidationErrors

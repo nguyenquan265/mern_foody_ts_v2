@@ -8,7 +8,9 @@ const env = {
   auth0IssuerBaseUrl: process.env.AUTH0_ISSUER_BASE_URL!,
   cloudinaryName: process.env.CLOUDINARY_NAME!,
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY!,
-  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET!
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET!,
+  stripeApiKey: process.env.STRIPE_API_KEY!,
+  frontendUrl: process.env.FRONTEND_URL!
 }
 
 export default env

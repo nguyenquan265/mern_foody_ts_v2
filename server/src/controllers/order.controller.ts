@@ -10,6 +10,12 @@ import asyncHandler from '~/utils/asyncHandler'
 const STRIPE = new Stripe(env.stripeApiKey)
 const FRONTEND_URL = env.frontendUrl
 
+export const getOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const orders = await Order.find({ user: req.userId }).populate('restaurant').populate('user').lean()
+
+  res.status(200).json(orders)
+})
+
 interface CheckoutSessionRequest extends Request {
   body: {
     cartItems: {

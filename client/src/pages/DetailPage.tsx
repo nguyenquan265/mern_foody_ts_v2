@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { MenuItem as MenuItemType } from '@/types'
 import CheckoutButton from '@/components/CheckoutButton'
 import { UserFormData } from '@/components/forms/UserProfileForm'
+import { useCreateCheckoutSession } from '@/apis/OrderApi'
 
 export type CartItem = {
   _id: string
@@ -20,6 +21,7 @@ export type CartItem = {
 const DetailPage = () => {
   const { restaurantId } = useParams()
   const { restaurant, isLoading } = useGetRestaurantById(restaurantId)
+  const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession()
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const cartItems = sessionStorage.getItem(`cartItems-${restaurantId}`)
     return cartItems ? JSON.parse(cartItems) : []
@@ -53,8 +55,29 @@ const DetailPage = () => {
     })
   }
 
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log('checkout', userFormData)
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurantId || !restaurant) {
+      return
+    }
+
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        menuItemId: cartItem._id,
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString()
+      })),
+      deliveryDetails: {
+        name: userFormData.name,
+        addressLine1: userFormData.addressLine1,
+        city: userFormData.city,
+        country: userFormData.country,
+        email: userFormData.email as string
+      },
+      restaurantId
+    }
+
+    const res = await createCheckoutSession(checkoutData)
+    window.location.href = res.url
   }
 
   if (isLoading || !restaurant) {
@@ -83,7 +106,7 @@ const DetailPage = () => {
             <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart} />
 
             <CardFooter>
-              <CheckoutButton disabled={cartItems.length == 0} onCheckout={onCheckout} />
+              <CheckoutButton disabled={cartItems.length == 0} onCheckout={onCheckout} isLoading={isCheckoutLoading} />
             </CardFooter>
           </Card>
         </div>

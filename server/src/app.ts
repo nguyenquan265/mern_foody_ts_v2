@@ -4,9 +4,7 @@ import errorHandler from './middlewares/error.middleware'
 import cors from 'cors'
 import corsOptions from './config/cors'
 import ApiError from './utils/ApiError'
-import job from './cron'
 
-job.start()
 const app = express()
 
 // Middlewares

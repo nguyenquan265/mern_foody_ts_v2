@@ -121,9 +121,21 @@ const createSession = async (
 }
 
 export const stripeWebhookHandler = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  console.log('RECEIVED EVENT')
-  console.log('==============')
-  console.log('event: ', req.body)
+  const sig = req.headers['stripe-signature']
+  const event = STRIPE.webhooks.constructEvent(req.body, sig as string, env.stripeWebhookSecret)
 
-  res.send()
+  if (event.type === 'checkout.session.completed') {
+    const order = await Order.findById(event.data.object.metadata?.orderId)
+
+    if (!order) {
+      throw new ApiError(404, 'Order not found')
+    }
+
+    order.totalAmount = event.data.object.amount_total as number
+    order.status = 'paid'
+
+    await order.save()
+  }
+
+  res.status(200).send()
 })

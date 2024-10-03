@@ -10,6 +10,7 @@ const app = express()
 // Middlewares
 app.use(cors())
 app.use(express.urlencoded({ extended: true }))
+app.use('/api/v1/orders/checkout/webhook', express.raw({ type: '*/*' }))
 app.use(express.json())
 
 // Routes

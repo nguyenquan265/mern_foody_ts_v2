@@ -16,8 +16,5 @@ export default interface IOrder extends Document {
     quantity: number
   }[]
   totalAmount: number
-  status: {
-    type: string
-    enum: ['placed', 'paid', 'inProgress', 'outForDelivery', 'delivered']
-  }
+  status: string
 }

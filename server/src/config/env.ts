@@ -10,7 +10,8 @@ const env = {
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY!,
   cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET!,
   stripeApiKey: process.env.STRIPE_API_KEY!,
-  frontendUrl: process.env.FRONTEND_URL!
+  frontendUrl: process.env.FRONTEND_URL!,
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET!
 }
 
 export default env

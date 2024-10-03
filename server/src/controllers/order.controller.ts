@@ -119,3 +119,11 @@ const createSession = async (
 
   return sessionData
 }
+
+export const stripeWebhookHandler = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  console.log('RECEIVED EVENT')
+  console.log('==============')
+  console.log('event: ', req.body)
+
+  res.send()
+})

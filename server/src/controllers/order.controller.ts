@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import Stripe from 'stripe'
 import env from '~/config/env'
 import { MenuItemType } from '~/models/menuItem.model'
+import Order from '~/models/order.model'
 import Restaurant from '~/models/restaurant.model'
 import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
@@ -35,13 +36,28 @@ export const createCheckoutSession = asyncHandler(
       throw new ApiError(404, 'Restaurant not found')
     }
 
+    const order = new Order({
+      restaurant: restaurant._id,
+      user: req.userId,
+      deliveryDetails: checkoutSessionRequest.deliveryDetails,
+      cartItems: checkoutSessionRequest.cartItems,
+      status: 'placed'
+    })
+
     const lineItems = createLineItems(checkoutSessionRequest, restaurant.menuItems as MenuItemType[])
 
-    const session = await createSession(lineItems, 'Test_Order_id', restaurant.deliveryPrice, restaurant._id.toString())
+    const session = await createSession(
+      lineItems,
+      order._id.toString(),
+      restaurant.deliveryPrice,
+      restaurant._id.toString()
+    )
 
     if (!session.url) {
       throw new ApiError(500, 'Failed to create checkout session')
     }
+
+    await order.save()
 
     res.status(200).json({ url: session.url })
   }

@@ -1,7 +1,7 @@
-import { Document, ObjectId } from 'mongoose'
+import { Document, Types } from 'mongoose'
 
 export default interface IMenuItem extends Document {
-  _id: ObjectId
+  _id: Types.ObjectId
   name: string
   price: number
 }

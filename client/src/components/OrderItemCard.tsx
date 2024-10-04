@@ -6,7 +6,7 @@ import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { ORDER_STATUS } from '@/config/order-status-config'
 import { useUpdateOrderStatus } from '@/apis/OrderApi'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type Props = {
   order: Order
@@ -30,6 +30,10 @@ const OrderItemCard = ({ order }: Props) => {
 
     return `${hours}:${paddleMinutes}`
   }
+
+  useEffect(() => {
+    setStatus(order.status)
+  }, [order.status])
 
   return (
     <Card>

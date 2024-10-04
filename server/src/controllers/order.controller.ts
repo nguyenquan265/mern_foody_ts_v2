@@ -145,3 +145,37 @@ export const stripeWebhookHandler = asyncHandler(async (req: Request, res: Respo
 
   res.status(200).send()
 })
+
+interface UpdateOrderStatusRequest extends Request {
+  params: {
+    orderId: string
+  }
+  body: {
+    status: string
+  }
+}
+
+export const updateOrderStatus = asyncHandler(
+  async (req: UpdateOrderStatusRequest, res: Response, next: NextFunction) => {
+    const { orderId } = req.params
+    const { status } = req.body
+
+    const order = await Order.findById(orderId)
+
+    if (!order) {
+      throw new ApiError(404, 'Order not found')
+    }
+
+    const restaurant = await Restaurant.findById(order.restaurant).lean()
+
+    if (restaurant?.user._id.toString() !== req.userId) {
+      throw new ApiError(403, 'You are not allowed to update this order')
+    }
+
+    order.status = status
+
+    await order.save()
+
+    res.status(200).json(order)
+  }
+)

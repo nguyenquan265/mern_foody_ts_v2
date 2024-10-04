@@ -170,7 +170,7 @@ export const getRestaurantOrders = asyncHandler(async (req: Request, res: Respon
     throw new ApiError(404, 'Restaurant not found')
   }
 
-  const orders = await Order.find({ restaurant: restaurant._id }).populate('restaurantId').populate('user').lean()
+  const orders = await Order.find({ restaurant: restaurant._id }).populate('restaurant').populate('user').lean()
 
   res.status(200).json(orders)
 })

@@ -3,6 +3,7 @@ import {
   createRestaurant,
   getCurrentRestaurant,
   getRestaurantById,
+  getRestaurantOrders,
   searchRestaurants,
   updateRestaurant
 } from '~/controllers/restaurant.controller'
@@ -16,6 +17,7 @@ import {
 
 const router = Router()
 
+router.get('/order', jwtCheck, jwtParse, getRestaurantOrders)
 router.get('/', jwtCheck, jwtParse, getCurrentRestaurant)
 router.post('/', uploader.single('imageFile'), validateRestaurantRequest, jwtCheck, jwtParse, createRestaurant)
 router.patch('/', uploader.single('imageFile'), validateRestaurantRequest, jwtCheck, jwtParse, updateRestaurant)

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { Types } from 'mongoose'
 import cloudinary from '~/config/cloudinary'
+import Order from '~/models/order.model'
 import Restaurant from '~/models/restaurant.model'
 import ApiError from '~/utils/ApiError'
 import asyncHandler from '~/utils/asyncHandler'
@@ -159,4 +160,17 @@ export const searchRestaurants = asyncHandler(async (req: Request, res: Response
   ])
 
   res.status(200).json({ data: restaurants, pagination: { total, page, pages: Math.ceil(total / limit) } })
+})
+
+// Path: .../restaurants/order
+export const getRestaurantOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+  const restaurant = await Restaurant.findOne({ user: req.userId }).lean()
+
+  if (!restaurant) {
+    throw new ApiError(404, 'Restaurant not found')
+  }
+
+  const orders = await Order.find({ restaurant: restaurant._id }).populate('restaurantId').populate('user').lean()
+
+  res.status(200).json(orders)
 })
